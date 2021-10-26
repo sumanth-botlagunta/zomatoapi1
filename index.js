@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const mongo = require('mongodb');
 const mongoclient = mongo.MongoClient;
-const port = process.env.port || 5000 ;
+const port = process.env.PORT||5000 ;
 const mongourl = "mongodb+srv://sumanth:12345@sumanth.w8xsd.mongodb.net/zomato?retryWrites=true&w=majority";
 var db;
 
