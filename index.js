@@ -1,7 +1,7 @@
 var express = require('express');
 const app = express();
-const dotenv = require('dotenv');
-dotenv.config();
+// const dotenv = require('dotenv');
+// dotenv.config();
 const mongo = require('mongodb');
 const mongoclient = mongo.MongoClient;
 const port = process.env.PORT||5000 ;
