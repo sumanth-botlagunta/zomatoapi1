@@ -62,7 +62,7 @@ mongoclient.connect(mongourl, (err, client) => {
     if(err) {console.log("error while connecting mongodb server");}
     db = client.db('zomato');
     app.listen(port, () => {
-        console.log('zomato server listening on port no ${port}')
+        console.log(`listening on port no ${port}`)
     })
 })
 
