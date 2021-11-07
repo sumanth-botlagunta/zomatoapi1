@@ -1,5 +1,6 @@
 var express = require('express');
 const app = express();
+var cors = require('cors');
 // const dotenv = require('dotenv');
 // dotenv.config();
 const mongo = require('mongodb');
@@ -7,6 +8,8 @@ const mongoclient = mongo.MongoClient;
 const port = process.env.PORT||5000 ;
 const mongourl = "mongodb+srv://sumanth:12345@sumanth.w8xsd.mongodb.net/zomato?retryWrites=true&w=majority";
 var db;
+
+app.use(cors())
 
 app.get('/', (req, res) => {
     res.send("Welcome to the zomato server");
