@@ -54,7 +54,7 @@ app.get('/details/:id',(req,res) => {
 
 app.get('/menu/:id',(req,res) => {
     var id = req.params.id
-    db.collection('restaurantmenu').find({menu_id:Number(id)}).toArray((err,result)=>{
+    db.collection('restaurantmenu').find({restaurant_id:Number(id)}).toArray((err,result)=>{
         if(err) throw err;
         res.send(result)
     })
