@@ -1,6 +1,7 @@
 var express = require('express');
 const app = express();
 var cors = require('cors');
+const bodyParser = require('body-parser');
 // const dotenv = require('dotenv');
 // dotenv.config();
 const mongo = require('mongodb');
@@ -10,6 +11,8 @@ const mongourl = "mongodb+srv://sumanth:12345@sumanth.w8xsd.mongodb.net/zomato?r
 var db;
 
 app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
     res.send("Welcome to the zomato server");
@@ -55,6 +58,13 @@ app.get('/details/:id',(req,res) => {
 app.get('/menu/:id',(req,res) => {
     var id = req.params.id
     db.collection('restaurantmenu').find({restaurant_id:Number(id)}).toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+app.post('/menuitem', (req, res)=>{
+    db.collection('restaurantmenu').find({menu_id:{$in:req.body}}).toArray((err,result)=>{
         if(err) throw err;
         res.send(result)
     })
