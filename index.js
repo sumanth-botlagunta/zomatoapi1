@@ -77,6 +77,85 @@ app.get('/quicksearch', (req, res) => {
     })
 })
 
+app.post('/placeOrder',(req,res) => {
+    console.log(req.body);
+    db.collection('orders').insert(req.body,(err,result) => {
+        if(err) throw err;
+        res.send("Order Placed")
+    })
+})
+
+app.get('/viewOrder',(req,res) => {
+    var query = {}
+    if(req.query.email){
+        query = {email:req.query.email}
+    }
+    db.collection('orders').find(query).toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+app.get('/viewOrder/:id',(req,res) => {
+    var id = mongo.ObjectId(req.params.id);
+    db.collection('orders').find({_id:id}).toArray((err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+
+app.delete('/deleteOrder',(req,res) => {
+    db.collection('orders').remove({},(err,result)=>{
+        if(err) throw err;
+        res.send(result)
+    })
+})
+
+app.put('/updateOrder/:id',(req,res) => {
+    var id = Number(req.params.id);
+    var status = req.body.status?req.body.status:"Pending"
+    db.collection('orders').updateOne(
+        {id:id},
+        {
+            $set:{
+                "date":req.body.date,
+                "bank_status":req.body.bank_status,
+                "bank":req.body.bank,
+                "status":status
+            }
+        }
+    )
+    res.send('data updated')
+})
+
+app.put('/updateStatus/:id',(req,res) => {
+    var id = mongo.ObjectId(req.params.id);
+    var status = 'Pending';
+    var statuVal = 2
+    if(req.query.statuVal){
+        statuVal = Number(req.query.statuVal)
+        if(statuVal == 1){
+            status = 'Accepted'
+        }else if (statuVal == 0){
+            status = 'Rejected'
+        }else{
+            status = 'Pending'
+        }
+    }
+    db.collection('orders').updateOne(
+        {_id:id},
+        {
+            $set:{
+               "status": status
+            }
+        }, (err,result) => {
+            if(err) throw err;
+            res.send(`Your order status is ${status}`)
+        }
+    )
+})
+
 
 
 mongoclient.connect(mongourl, (err, client) => {
