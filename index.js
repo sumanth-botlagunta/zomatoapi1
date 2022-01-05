@@ -76,7 +76,7 @@ app.get('/filter/:mealType',(req,res) => {
         var hcost = Number(req.query.hcost);
         query={$and:[{cost:{$gt:lcost,$lt:hcost}}],"mealTypes.mealtype_id":Number(mealType)}
     }
-    db.collection('restaurants').find(query).sort(sort).skip(skip).limit(limit).toArray((err,result)=>{
+    db.collection('restaurantdata').find(query).sort(sort).skip(skip).limit(limit).toArray((err,result)=>{
         if(err) throw err;
         res.send(result)
     })
